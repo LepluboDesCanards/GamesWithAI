@@ -1,0 +1,30 @@
+body {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #000;
+}
+
+canvas {
+    border: 2px solid #fff;
+}
+
+.hidden {
+    display: none;
+}
+
+#gameOver {
+    position: absolute;
+    color: white;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 20px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
