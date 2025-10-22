@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Snake</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="game">
+    <h1>Snake</h1>
+
+    <div class="canvasWrap">
+      <!-- étang / canard derrière le canvas -->
+      <div class="pond" aria-hidden="true">
+        <div class="waves wave1"></div>
+        <div class="waves wave2"></div>
+
+        <!-- canard SVG amélioré (forme plus douce, ombrage + reflet) -->
+        <svg class="duck" viewBox="0 0 160 96" width="160" height="96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img">
+          <defs>
+            <linearGradient id="duckBody" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0%" stop-color="#FFECB3"/>
+              <stop offset="100%" stop-color="#FFC107"/>
+            </linearGradient>
+            <radialGradient id="eyeShine" cx="30%" cy="30%" r="60%">
+              <stop offset="0%" stop-color="#fff" stop-opacity="0.95"/>
+              <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+            </radialGradient>
+            <filter id="duckShadow" x="-40%" y="-40%" width="200%" height="200%">
+              <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#000" flood-opacity="0.18"/>
+            </filter>
+          </defs>
+
+          <!-- ombre -->
+          <ellipse cx="80" cy="76" rx="36" ry="8" fill="rgba(0,0,0,0.16)"/>
+
+          <!-- corps -->
+          <g filter="url(#duckShadow)">
+            <path d="M40 50 Q46 20 84 20 Q122 22 140 50 Q122 74 84 76 Q46 78 40 50 Z" fill="url(#duckBody)" stroke="#F9A825" stroke-width="1.2"/>
+            <!-- aile -->
+            <path d="M70 46 q18 -8 32 -2 q-14 10 -32 6 z" fill="#FFB74D" opacity="0.95"/>
+            <!-- tête -->
+            <circle cx="48" cy="36" r="14" fill="url(#duckBody)" stroke="#F9A825" stroke-width="1.1"/>
+            <!-- bec -->
+            <path d="M34 38 q12 4 18 -2 q-8 6 -18 8 z" fill="#FF8A65" stroke="#D84315" stroke-width="0.6"/>
+            <!-- oeil -->
+            <g transform="translate(56,32)">
+              <circle cx="0" cy="0" r="3.6" fill="#222"/>
+              <circle cx="-0.9" cy="-0.9" r="1.2" fill="url(#eyeShine)"/>
+            </g>
+            <!-- petite crête -->
+            <path d="M76 20 q6 -8 14 -4" stroke="#FFB74D" stroke-linecap="round" stroke-width="2" fill="none"/>
+            <!-- queue -->
+            <path d="M132 46 q8 -2 14 -8 q-8 8 -14 14 z" fill="#FFB74D" opacity="0.92"/>
+          </g>
+        </svg>
+      </div>
+
+      <canvas id="gameCanvas" width="550" height="550" aria-label="Jeu Snake"></canvas>
+
+      <!-- overlay pause (au-dessus du canvas) -->
+      <div id="pauseOverlay" class="overlay" aria-hidden="true">
+        <div class="overlayBox">
+          <div class="overlayTitle">PAUSE</div>
+          <div class="overlayHint">Appuyez sur Espace pour reprendre</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="info">
+      <span id="score">Score: 0</span>
+    </div>
+    <p>Flèches ou ZQSD pour diriger. Espace pour Pause/Reprendre. Cliquez sur le cadre pour rejouer après une défaite.</p>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: Inter, Arial, sans-serif; }
+body { display: flex; min-height: 100vh; align-items: center; justify-content: center; background: linear-gradient(180deg,#a7e9ff 0%, #bfffc9 100%); color:#111; }
+.game { text-align: center; max-width: 760px; width: 100%; padding: 18px; }
+.canvasWrap { position: relative; display: inline-block; border-radius: 8px; box-shadow: 0 10px 30px rgba(8,10,20,0.25); overflow: visible; }
+
+/* étang derrière le canvas */
+.pond {
+  position: absolute;
+  left: 6px; top: 6px; /* laisse la bordure visible */
+  width: 550px; height: 550px;
+  border-radius: 6px;
+  background: linear-gradient(180deg, rgba(36,152,216,0.95) 0%, rgba(13,117,170,0.95) 65%);
+  z-index: 0;
+  pointer-events: none; /* clics vont au canvas */
+  overflow: hidden;
+  transform: translateZ(0);
+}
+
+/* vagues animées (deux couches pour profondeur) */
+.waves {
+  position: absolute;
+  left: -50%; width: 200%; height: 60%;
+  bottom: 0;
+  background-repeat: repeat-x;
+  opacity: 0.28;
+  transform: translateZ(0);
+}
+.wave1 {
+  background-image: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0.02) 36%, transparent 37%);
+  animation: waveMove 9s linear infinite;
+  bottom: 12%;
+  opacity: 0.34;
+}
+.wave2 {
+  background-image: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.01) 32%, transparent 33%);
+  animation: waveMove 14s linear infinite reverse;
+  bottom: 20%;
+  opacity: 0.20;
+}
+@keyframes waveMove {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* canard qui "navigue" et se balance — plus fluide */
+.duck {
+  position: absolute;
+  left: -20%;
+  top: 24%;
+  z-index: 0;
+  pointer-events: none;
+  animation: swim 12s cubic-bezier(.22,.9,.36,.99) infinite, bob 2.6s ease-in-out infinite;
+  transform-origin: center;
+  filter: drop-shadow(0 6px 10px rgba(0,0,0,0.14));
+}
+@keyframes swim {
+  0%   { left: -24%; transform: translateY(0) scale(0.98); }
+  50%  { left: 60%; transform: translateY(-3px) scale(1.02); }
+  100% { left: 124%; transform: translateY(0) scale(0.98); }
+}
+@keyframes bob {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+  100% { transform: translateY(0); }
+}
+
+/* canvas au-dessus de l'étang */
+canvas { background: transparent; display:block; margin: 10px auto; border: 4px solid rgba(0,0,0,0.18); image-rendering: pixelated; position: relative; z-index: 1; border-radius: 6px; }
+
+/* overlay pause */
+.overlay {
+  position: absolute;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  z-index: 3;
+  display: none; /* cachée par défaut */
+  align-items: center;
+  justify-content: center;
+  pointer-events: none; /* ne bloque pas les clics vers le canvas */
+}
+.overlay.show { display: flex; }
+
+.overlayBox {
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  padding: 18px 26px;
+  border-radius: 8px;
+  text-align: center;
+  min-width: 220px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.45);
+  backdrop-filter: blur(4px);
+}
+.overlayTitle { font-size: 20px; font-weight: 700; letter-spacing: 1px; margin-bottom: 8px; }
+.overlayHint { font-size: 13px; opacity: 0.9; }
+
+/* infos */
+.info { margin-top: 10px; display:flex; gap:10px; justify-content:center; align-items:center;}
+p { margin-top: 8px; color: rgba(0,0,0,0.6); font-size: 14px; }
